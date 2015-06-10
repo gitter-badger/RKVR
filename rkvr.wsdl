@@ -1,0 +1,667 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:tns="http://producers.rmviki.xtee.riik.ee/producer/rmviki" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xtee="http://x-tee.riik.ee/xsd/xtee.xsd" targetNamespace="http://producers.rmviki.xtee.riik.ee/producer/rmviki">
+	<types>
+		<xs:schema targetNamespace="http://producers.rmviki.xtee.riik.ee/producer/rmviki" xmlns="http://www.w3.org/2001/XMLSchema">
+			<import namespace="http://x-tee.riik.ee/xsd/xtee.xsd" schemaLocation="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+			<import namespace="http://schemas.xmlsoap.org/soap/encoding/" schemaLocation="http://schemas.xmlsoap.org/soap/encoding/"/>
+			<element name="kytunnus" type="string">
+				<annotation>
+					<appinfo>
+						<xtee:title>Katastritunnus</xtee:title>
+						<xtee:notes>Katastriüksuse tunnus kujul nnnnn:nnn:nnnn</xtee:notes>
+					</appinfo>
+				</annotation>
+			</element>
+			<element name="objektiKood" type="string">
+				<annotation>
+					<appinfo>
+						<xtee:title>KVR objekti kood</xtee:title>
+						<xtee:notes>Riigi Kinnisvararegistris arvel olevale kinnisvarale registris antav kood</xtee:notes>
+					</appinfo>
+				</annotation>
+			</element>
+			<element name="adsOid" type="string">
+				<annotation>
+					<appinfo>
+						<xtee:title>ADS OID</xtee:title>
+						<xtee:notes>Objekti ADS süsteemi kood, mida väljastab keskne ADS</xtee:notes>
+					</appinfo>
+				</annotation>
+			</element>
+			<element name="aadress" type="string">
+				<annotation>
+					<appinfo>
+						<xtee:title>Aadress tekstina</xtee:title>
+						<xtee:notes>Aadress tekstina</xtee:notes>
+					</appinfo>
+				</annotation>
+			</element>
+			<element name="ehrKood" type="string">
+				<annotation>
+					<appinfo>
+						<xtee:title>EHR kood</xtee:title>
+						<xtee:notes>Ehitisregistri kood, mida teised süsteemid oma süsteemides seostamise eesmärgil kasutavad</xtee:notes>
+					</appinfo>
+				</annotation>
+			</element>
+			<complexType name="kyTunnus">
+				<sequence maxOccurs="1">
+					<element ref="tns:kytunnus"/>
+				</sequence>
+			</complexType>
+			<complexType name="kyOlek">
+				<sequence minOccurs="0" maxOccurs="1">
+					<element ref="tns:kytunnus"/>
+					<element name="alates" type="date">
+						<annotation>
+							<appinfo>
+								<xtee:title>Registrisse arvamise kuupäev</xtee:title>
+							</appinfo>
+						</annotation>
+					</element>
+					<element name="kuni" type="date" minOccurs="0">
+						<annotation>
+							<appinfo>
+								<xtee:title>Registrist väljaarvamise kuupäev</xtee:title>
+							</appinfo>
+						</annotation>
+					</element>
+					<element name="kvr" minOccurs="0">
+						<annotation>
+							<appinfo>
+								<xtee:title>Varade loetelu</xtee:title>
+							</appinfo>
+						</annotation>
+						<complexType>
+							<complexContent>
+								<restriction base="SOAP-ENC:Array">
+									<sequence>
+										<element name="kood" type="string" minOccurs="1" maxOccurs="unbounded">
+											<annotation>
+												<appinfo>
+													<xtee:title>KVR kood</xtee:title>
+												</appinfo>
+											</annotation>
+										</element>
+									</sequence>
+								</restriction>
+							</complexContent>
+						</complexType>
+					</element>
+				</sequence>
+			</complexType>
+			<simpleType name="objektiTyyp">
+				<annotation>
+					<appinfo>
+						<xtee:title>Objekti tüüp</xtee:title>
+						<xtee:notes>Objekti tüüp (omand, renditud, piiratudasjaõigus)</xtee:notes>
+					</appinfo>
+				</annotation>
+				<restriction base="string">
+					<enumeration value="OMAND">
+						<annotation>
+							<appinfo>
+								<xtee:title>omand</xtee:title>
+							</appinfo>
+						</annotation>
+					</enumeration>
+					<enumeration value="RENT">
+						<annotation>
+							<appinfo>
+								<xtee:title>renditud</xtee:title>
+							</appinfo>
+						</annotation>
+					</enumeration>
+					<enumeration value="HOONESTUS">
+						<annotation>
+							<appinfo>
+								<xtee:title>Hoonestusõigus</xtee:title>
+							</appinfo>
+						</annotation>
+					</enumeration>
+					<enumeration value="SERVITUUT">
+						<annotation>
+							<appinfo>
+								<xtee:title>servituut</xtee:title>
+							</appinfo>
+						</annotation>
+					</enumeration>
+				</restriction>
+			</simpleType>
+			<simpleType name="dataTyyp">
+				<annotation>
+					<appinfo>
+						<xtee:title>Vara tüüp</xtee:title>
+						<xtee:notes>Hoone, rajatis, katastriüksus või kinnistu</xtee:notes>
+					</appinfo>
+				</annotation>
+				<restriction base="string">
+					<enumeration value="HOONE">
+						<annotation>
+							<appinfo>
+								<xtee:title>hoone</xtee:title>
+							</appinfo>
+						</annotation>
+					</enumeration>
+					<enumeration value="RAJATIS">
+						<annotation>
+							<appinfo>
+								<xtee:title>rajatis</xtee:title>
+							</appinfo>
+						</annotation>
+					</enumeration>
+					<enumeration value="KATASTRIYKSUS">
+						<annotation>
+							<appinfo>
+								<xtee:title>katastriüksus</xtee:title>
+							</appinfo>
+						</annotation>
+					</enumeration>
+					<enumeration value="KINNISTU">
+						<annotation>
+							<documentation>Lisandub kvrOtsing2 v2 versioonist alates</documentation>
+							<appinfo>
+								<xtee:title>kinnistu</xtee:title>
+							</appinfo>
+						</annotation>
+					</enumeration>
+				</restriction>
+			</simpleType>
+			<simpleType name="muudatusTyyp">
+				<annotation>
+					<appinfo>
+						<xtee:title>Muudatuse tüüp</xtee:title>
+						<xtee:notes>Tegevus menetluses</xtee:notes>
+					</appinfo>
+				</annotation>
+				<restriction base="string">
+					<enumeration value="VALITSEMISE_ANDMED_MUUTUNUD">
+						<annotation>
+							<appinfo>
+								<xtee:title>Objekti valitsemise andmed on muutunud</xtee:title>
+							</appinfo>
+						</annotation>
+					</enumeration>
+					<enumeration value="OBJEKT_LISANDUNUD">
+						<annotation>
+							<appinfo>
+								<xtee:title>Objekt registrisse lisatud</xtee:title>
+							</appinfo>
+						</annotation>
+					</enumeration>
+					<enumeration value="OBJEKTI_ANDMED_MUUTUNUD">
+						<annotation>
+							<appinfo>
+								<xtee:title>Objekti vara koosseis muutunud</xtee:title>
+							</appinfo>
+						</annotation>
+					</enumeration>
+					<enumeration value="OBJEKT_REGISTRIST_VALJA_ARVATUD">
+						<annotation>
+							<appinfo>
+								<xtee:title>Objekt on registrist välja arvatud </xtee:title>
+							</appinfo>
+						</annotation>
+					</enumeration>
+				</restriction>
+			</simpleType>
+			<complexType name="kvrLogiInput">
+				<sequence>
+					<element name="algus" type="date" minOccurs="0">
+						<annotation>
+							<appinfo>
+								<xtee:title>Muudatuse algusaeg</xtee:title>
+							</appinfo>
+						</annotation>
+					</element>
+					<element name="lopp" type="date" minOccurs="0">
+						<annotation>
+							<appinfo>
+								<xtee:title>Muudatuse lõppaeg</xtee:title>
+							</appinfo>
+						</annotation>
+					</element>
+					<element name="tyyp" type="tns:muudatusTyyp" minOccurs="0"/>
+					<element ref="tns:objektiKood" minOccurs="0"/>
+				</sequence>
+			</complexType>
+			<complexType name="kvrLogiOutput">
+				<sequence>
+					<element name="logid" minOccurs="0">
+						<annotation>
+							<appinfo>
+								<xtee:title>Massiiv seotud muudatustest</xtee:title>
+							</appinfo>
+						</annotation>
+						<complexType>
+							<complexContent>
+								<restriction base="SOAP-ENC:Array">
+									<sequence>
+										<element name="objekt" type="tns:kvrLogiObjekt" minOccurs="0" maxOccurs="unbounded"/>
+									</sequence>
+								</restriction>
+							</complexContent>
+						</complexType>
+					</element>
+				</sequence>
+			</complexType>
+			<complexType name="kvrLogiObjekt">
+				<annotation>
+					<appinfo>
+						<xtee:title>Objekti muudatused</xtee:title>
+					</appinfo>
+				</annotation>
+				<sequence>
+					<element name="items" minOccurs="0">
+						<complexType>
+							<complexContent>
+								<restriction base="SOAP-ENC:Array">
+									<sequence>
+										<element name="item" type="tns:kvrLogiItem" minOccurs="0" maxOccurs="unbounded"/>
+									</sequence>
+								</restriction>
+							</complexContent>
+						</complexType>
+					</element>
+				</sequence>
+			</complexType>
+			<complexType name="kvrLogiItem">
+				<sequence>
+					<element ref="tns:objektiKood" minOccurs="0"/>
+					<element name="tyyp" type="tns:muudatusTyyp" minOccurs="0"/>
+					<element name="lopp" type="date" minOccurs="0">
+						<annotation>
+							<appinfo>
+								<xtee:title>Muudatuse lõppaeg</xtee:title>
+							</appinfo>
+						</annotation>
+					</element>
+				</sequence>
+			</complexType>
+			<complexType name="kvrOtsingInput">
+				<sequence>
+					<choice minOccurs="0" maxOccurs="1">
+						<element ref="tns:objektiKood"/>
+						<element ref="tns:kytunnus"/>
+						<element ref="tns:ehrKood"/>
+						<element ref="tns:adsOid"/>
+						<element ref="tns:aadress"/>
+					</choice>
+				</sequence>
+			</complexType>
+			<complexType name="kvrOtsingOutput">
+				<sequence>
+					<element name="objektid" minOccurs="0">
+						<annotation>
+							<appinfo>
+								<xtee:title>Massiiv seotud objektidest</xtee:title>
+							</appinfo>
+						</annotation>
+						<complexType>
+							<complexContent>
+								<restriction base="SOAP-ENC:Array">
+									<sequence>
+										<element name="objekt" type="tns:kvrOtsingObjekt" minOccurs="0" maxOccurs="unbounded"/>
+									</sequence>
+								</restriction>
+							</complexContent>
+						</complexType>
+					</element>
+				</sequence>
+			</complexType>
+			<complexType name="kvrOtsingObjekt">
+				<sequence>
+					<element ref="tns:objektiKood" minOccurs="0"/>
+					<element name="tyyp" type="tns:objektiTyyp" minOccurs="0"/>
+					<element name="valitseja" type="string" minOccurs="0">
+						<annotation>
+							<appinfo>
+								<xtee:title>valitseja registrikood</xtee:title>
+							</appinfo>
+						</annotation>
+					</element>
+					<element name="volitatud" type="string" minOccurs="0">
+						<annotation>
+							<appinfo>
+								<xtee:title>volitatud asutuse registrikood</xtee:title>
+							</appinfo>
+						</annotation>
+					</element>
+					<element name="yksused" minOccurs="0">
+						<annotation>
+							<appinfo>
+								<xtee:title>Massiiv seotud varadest</xtee:title>
+							</appinfo>
+						</annotation>
+						<complexType>
+							<complexContent>
+								<restriction base="SOAP-ENC:Array">
+									<sequence>
+										<element name="item" type="tns:kvrElement" minOccurs="0" maxOccurs="unbounded"/>
+									</sequence>
+								</restriction>
+							</complexContent>
+						</complexType>
+					</element>
+					<element name="volitus" type="date" minOccurs="0">
+						<annotation>
+							<documentation>Lisandub kvrOtsing2 v2 versioonist alates</documentation>
+							<appinfo>
+								<xtee:title>valitseja/volitatud asutuse kehtivuse alguse kuupäev</xtee:title>
+							</appinfo>
+						</annotation>
+					</element>
+				</sequence>
+			</complexType>
+			<complexType name="kvrElement">
+				<sequence>
+					<element name="roNumber" type="string" minOccurs="0">
+						<annotation>
+							<appinfo>
+								<xtee:title>Kinnistu registriosa number</xtee:title>
+							</appinfo>
+						</annotation>
+					</element>
+					<element ref="tns:kytunnus" minOccurs="0"/>
+					<element ref="tns:ehrKood" minOccurs="0"/>
+					<element name="ehitisTyyp" type="tns:dataTyyp" minOccurs="0">
+						<annotation>
+							<appinfo>
+								<xtee:title>Vara tüüp</xtee:title>
+								<xtee:notes>Hoone, rajatis, katastriüksus või kinnistu</xtee:notes>
+							</appinfo>
+						</annotation>
+					</element>
+					<element ref="tns:aadress" minOccurs="0"/>
+					<element name="nimetus" type="string" minOccurs="0">
+						<annotation>
+							<appinfo>
+								<xtee:title>Objekti nimetus</xtee:title>
+							</appinfo>
+						</annotation>
+					</element>
+					<element ref="tns:adsOid" minOccurs="0"/>
+					<element name="alates" type="date" minOccurs="0">
+						<annotation>
+							<documentation>Lisandub kvrOtsing2 v2 versioonist alates</documentation>
+							<appinfo>
+								<xtee:title>vara koosseisus alates kuupäev</xtee:title>
+							</appinfo>
+						</annotation>
+					</element>
+				</sequence>
+			</complexType>
+			<complexType name="kvrKaevanduslepingudInput">
+				<sequence>
+					<element name="alates" type="date" minOccurs="0">
+						<annotation>
+							<appinfo>
+								<xtee:title>leping on registrisse lisatud või lõppeb või lõpetatud alates kuupäev
+								, vaikimisi kõik enne kuni kuupäeva registrisse lisatud lepingud</xtee:title>
+							</appinfo>
+						</annotation>
+					</element>
+					<element name="kuni" type="date" minOccurs="0">
+						<annotation>
+							<appinfo>
+								<xtee:title>leping on registrisse lisatud või lõppeb või lõpetatud kuni kuupäev
+								, vaikimisi päringu päev; kuni kuupäev on kaasa arvatud</xtee:title>
+							</appinfo>
+						</annotation>
+					</element>
+				</sequence>
+			</complexType>
+			<complexType name="kvrKaevanduslepingudOutput">
+				<sequence>
+					<element name="kaevanduslepingud" minOccurs="0">
+						<annotation>
+							<appinfo>
+								<xtee:title>Massiiv kaevanduslepingutest</xtee:title>
+							</appinfo>
+						</annotation>
+						<complexType>
+							<complexContent>
+								<restriction base="SOAP-ENC:Array">
+									<sequence>
+										<element name="kaevandusleping" type="tns:kaevanduslepingType" minOccurs="0" maxOccurs="unbounded"/>
+									</sequence>
+								</restriction>
+							</complexContent>
+						</complexType>
+					</element>
+				</sequence>
+			</complexType>
+			<complexType name="kaevanduslepingType">
+				<sequence>
+					<element name="lepinguKood" type="string">
+						<annotation>
+							<appinfo>
+								<xtee:title>leping on registrisse lisandunud alates kuupäev või lepingu lõppemise/lõpetamise kuupäev on sellest suurem</xtee:title>
+							</appinfo>
+						</annotation>
+					</element>
+					<element name="rentnik" type="string">
+						<annotation>
+							<appinfo>
+								<xtee:title>rendile võtja registrikood</xtee:title>
+							</appinfo>
+						</annotation>
+					</element>
+					<element name="varad">
+						<annotation>
+							<appinfo>
+								<xtee:title>renditavate KVR objektide loend</xtee:title>
+							</appinfo>
+						</annotation>
+						<complexType>
+							<complexContent>
+								<restriction base="SOAP-ENC:Array">
+									<sequence>
+										<element ref="tns:objektiKood" maxOccurs="unbounded"/>
+									</sequence>
+								</restriction>
+							</complexContent>
+						</complexType>
+					</element>
+					<element name="alates" type="date">
+						<annotation>
+							<appinfo>
+								<xtee:title>lepingu tähtaeg alates</xtee:title>
+							</appinfo>
+						</annotation>
+					</element>
+					<element name="kuni" type="date">
+						<annotation>
+							<appinfo>
+								<xtee:title>lepingu tähtaeg kuni</xtee:title>
+							</appinfo>
+						</annotation>
+					</element>
+					<element name="lopetatud" type="date" minOccurs="0">
+						<annotation>
+							<appinfo>
+								<xtee:title>lepingu ennetähtaegse lõpetamise kuupäev</xtee:title>
+							</appinfo>
+						</annotation>
+					</element>
+				</sequence>
+			</complexType>
+		</xs:schema>
+	</types>
+	<message name="ky">
+		<part name="keha" type="tns:kyTunnus"/>
+	</message>
+	<message name="kyResponse">
+		<part name="paring" type="tns:kyTunnus"/>
+		<part name="keha" type="tns:kyOlek"/>
+	</message>
+	<message name="kvrOtsingRequest">
+		<part name="keha" type="tns:kvrOtsingInput"/>
+	</message>
+	<message name="kvrOtsingResponse">
+		<part name="paring" type="tns:kvrOtsingInput"/>
+		<part name="keha" type="tns:kvrOtsingOutput"/>
+	</message>
+	<message name="kvrOtsing2Request">
+		<part name="keha" type="tns:kvrOtsingInput"/>
+	</message>
+	<message name="kvrOtsing2Response">
+		<part name="paring" type="tns:kvrOtsingInput"/>
+		<part name="keha" type="tns:kvrOtsingOutput"/>
+	</message>
+	<message name="kvrLogiRequest">
+		<part name="keha" type="tns:kvrLogiInput"/>
+	</message>
+	<message name="kvrLogiResponse">
+		<part name="paring" type="tns:kvrLogiInput"/>
+		<part name="keha" type="tns:kvrLogiOutput"/>
+	</message>
+	<message name="kvrKaevanduslepingudRequest">
+		<part name="keha" type="tns:kvrKaevanduslepingudInput"/>
+	</message>
+	<message name="kvrKaevanduslepingudResponse">
+		<part name="paring" type="tns:kvrKaevanduslepingudInput"/>
+		<part name="keha" type="tns:kvrKaevanduslepingudOutput"/>
+	</message>
+	<message name="standardpais">
+		<part name="asutus" element="xtee:asutus"/>
+		<part name="andmekogu" element="xtee:andmekogu"/>
+		<part name="isikukood" element="xtee:isikukood"/>
+		<part name="id" element="xtee:id"/>
+		<part name="nimi" element="xtee:nimi"/>
+		<part name="toimik" element="xtee:toimik"/>
+	</message>
+	<portType name="KVRTeenusedPortType">
+		<operation name="kvrKyInfo">
+			<documentation>
+				<xtee:title>Päring katastriüksuse tunnuse järgi</xtee:title>
+				<xtee:notes>Päring väljastab registrisse arvamise ja väljaarvamise kupäeva, kui on</xtee:notes>
+			</documentation>
+			<input message="tns:ky"/>
+			<output message="tns:kyResponse"/>
+		</operation>
+		<operation name="kvrOtsing">
+			<documentation>
+				<xtee:title>KVR objekti päring</xtee:title>
+				<xtee:notes>Päring väljastab massiivid seotud katastriüksustest ning ehitistest</xtee:notes>
+			</documentation>
+			<input message="tns:kvrOtsingRequest"/>
+			<output message="tns:kvrOtsingResponse"/>
+		</operation>
+		<operation name="kvrOtsing2">
+			<documentation>
+				<xtee:title>KVR objekti päring, versioon 2</xtee:title>
+				<xtee:notes>Päring väljastab massiivid seotud kinnistustest, katastriüksustest ning ehitistest</xtee:notes>
+			</documentation>
+			<input message="tns:kvrOtsing2Request"/>
+			<output message="tns:kvrOtsing2Response"/>
+		</operation>
+		<operation name="kvrLogi">
+			<documentation>
+				<xtee:title>KVR objekti muudatuste logi päring</xtee:title>
+				<xtee:notes>Päring väljastab massiivid seotud muudatuste logidest</xtee:notes>
+			</documentation>
+			<input message="tns:kvrLogiRequest"/>
+			<output message="tns:kvrLogiResponse"/>
+		</operation>
+		<operation name="kvrKaevanduslepingud">
+			<documentation>
+				<xtee:title>KVR kasutusse andmine kaevandamiseks lepingute päring</xtee:title>
+				<xtee:notes>Päring väljastab massiivi kasutuslepingute lepingu liik „kasutusse andmine“ alamliik „rentimine kaevandamiseks“ andmetest</xtee:notes>
+			</documentation>
+			<input message="tns:kvrKaevanduslepingudRequest"/>
+			<output message="tns:kvrKaevanduslepingudResponse"/>
+		</operation>
+	</portType>
+	<binding name="KVRTeenusedService" type="tns:KVRTeenusedPortType">
+		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="kvrKyInfo">
+			<xtee:version>v1</xtee:version>
+			<input>
+				<soap:body use="encoded"/>
+				<soap:header message="tns:standardpais" part="asutus" use="encoded" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+				<soap:header message="tns:standardpais" part="andmekogu" use="encoded" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+				<soap:header message="tns:standardpais" part="isikukood" use="encoded" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+				<soap:header message="tns:standardpais" part="id" use="encoded" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+				<soap:header message="tns:standardpais" part="nimi" use="encoded" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+				<soap:header message="tns:standardpais" part="toimik" use="encoded" wsdl:required="false" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+			</input>
+			<output>
+				<soap:body use="encoded"/>
+				<soap:header message="tns:standardpais" part="*" use="encoded" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+			</output>
+		</operation>
+		<operation name="kvrOtsing">
+			<xtee:version>v1</xtee:version>
+			<input>
+				<soap:body use="encoded"/>
+				<soap:header message="tns:standardpais" part="asutus" use="encoded" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+				<soap:header message="tns:standardpais" part="andmekogu" use="encoded" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+				<soap:header message="tns:standardpais" part="isikukood" use="encoded" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+				<soap:header message="tns:standardpais" part="id" use="encoded" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+				<soap:header message="tns:standardpais" part="nimi" use="encoded" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+				<soap:header message="tns:standardpais" part="toimik" use="encoded" wsdl:required="false" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+			</input>
+			<output>
+				<soap:body use="encoded"/>
+				<soap:header message="tns:standardpais" part="*" use="encoded" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+			</output>
+		</operation>
+		<operation name="kvrOtsing2">
+			<xtee:version>v2</xtee:version>
+			<input>
+				<soap:body use="encoded"/>
+				<soap:header message="tns:standardpais" part="asutus" use="encoded" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+				<soap:header message="tns:standardpais" part="andmekogu" use="encoded" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+				<soap:header message="tns:standardpais" part="isikukood" use="encoded" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+				<soap:header message="tns:standardpais" part="id" use="encoded" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+				<soap:header message="tns:standardpais" part="nimi" use="encoded" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+				<soap:header message="tns:standardpais" part="toimik" use="encoded" wsdl:required="false" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+			</input>
+			<output>
+				<soap:body use="encoded"/>
+				<soap:header message="tns:standardpais" part="*" use="encoded" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+			</output>
+		</operation>
+		<operation name="kvrLogi">
+			<xtee:version>v1</xtee:version>
+			<input>
+				<soap:body use="encoded"/>
+				<soap:header message="tns:standardpais" part="asutus" use="encoded" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+				<soap:header message="tns:standardpais" part="andmekogu" use="encoded" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+				<soap:header message="tns:standardpais" part="isikukood" use="encoded" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+				<soap:header message="tns:standardpais" part="id" use="encoded" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+				<soap:header message="tns:standardpais" part="nimi" use="encoded" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+				<soap:header message="tns:standardpais" part="toimik" use="encoded" wsdl:required="false" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+			</input>
+			<output>
+				<soap:body use="encoded"/>
+				<soap:header message="tns:standardpais" part="*" use="encoded" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+			</output>
+		</operation>
+		<operation name="kvrKaevanduslepingud">
+			<xtee:version>v1</xtee:version>
+			<input>
+				<soap:body use="encoded"/>
+				<soap:header message="tns:standardpais" part="asutus" use="encoded" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+				<soap:header message="tns:standardpais" part="andmekogu" use="encoded" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+				<soap:header message="tns:standardpais" part="isikukood" use="encoded" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+				<soap:header message="tns:standardpais" part="id" use="encoded" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+				<soap:header message="tns:standardpais" part="nimi" use="encoded" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+				<soap:header message="tns:standardpais" part="toimik" use="encoded" wsdl:required="false" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+			</input>
+			<output>
+				<soap:body use="encoded"/>
+				<soap:header message="tns:standardpais" part="*" use="encoded" namespace="http://x-tee.riik.ee/xsd/xtee.xsd"/>
+			</output>
+		</operation>
+	</binding>
+	<service name="KVRTeenusedService">
+		<documentation>Riigi kinnisvararegistri x-tee teenused</documentation>
+		<port name="KVRTeenusedPort" binding="tns:KVRTeenusedService">
+			<soap:address location="http://TURVASERVER/cgi-bin/consumer_proxy"/>
+			<xtee:title>Riigi kinnisvararegister</xtee:title>
+			<xtee:address producer="rmviki"/>
+		</port>
+	</service>
+</definitions>
