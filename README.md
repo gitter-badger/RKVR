@@ -1,5 +1,5 @@
 # RKVR
-[Riigi kinnisvararegistris](https://riigivara.fin.ee/kvr/) (RKVR) peetakse arvestust keskvalitsusele kuuluva või tema poolt kasutatava kinnisvara üle. Õiguslik tähendus on riigivara valitseja ja volitatud asutuse määramise andmetel. Põhimäärus: https://www.riigiteataja.ee/akt/128122010002
+[Riigi kinnisvararegistris](https://riigivara.fin.ee/kvr/) (RKVR, [põhimäärus](https://www.riigiteataja.ee/akt/128122010002)) peetakse arvestust keskvalitsusele kuuluva või tema poolt kasutatava kinnisvara üle. Õiguslik tähendus on riigivara valitseja ja volitatud asutuse määramise andmetel. 
 
 [Käesolevat](https://github.com/kinnisvara/RKVR) projekti kasutame RKVR kohta tagasiside (ideed, probleemid jne) kogumiseks ja menetlemiseks. Vea või arendusettepaneku saab kirjeldada [siin](https://github.com/kinnisvara/RKVR/issues) (eeldab github.com kasutajaks registreerimist). Turvaprobleemist palume teada anda aadressil kvr@fin.ee.
 
